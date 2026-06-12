@@ -10,7 +10,7 @@
         .split-layout {
             display: flex;
             width: 100%;
-            max-width: 1000px;
+            max-width: 900px; /* Reduced from 1000px for better laptop fit */
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -19,7 +19,8 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
             position: relative;
             z-index: 10;
-            overflow: hidden;
+            overflow-y: auto; /* Prevent vertical clipping */
+            max-height: 95vh;
             flex-direction: column;
         }
 
@@ -30,11 +31,13 @@
         }
 
         .split-left {
-            flex: 1;
-            padding: 3.5rem;
+            flex: 0.8; /* Reduced width */
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center; /* Center content */
+            text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -46,8 +49,8 @@
         }
 
         .split-right {
-            flex: 1.2;
-            padding: 2rem;
+            flex: 1.5; /* Increased width for checkout */
+            padding: 1.5rem;
             background: rgba(2, 6, 23, 0.4);
             display: flex;
             align-items: center;
@@ -66,7 +69,7 @@
             color: var(--steel);
             font-weight: 600;
             margin-bottom: 2rem;
-            align-self: flex-start;
+            align-self: center; /* Center badge */
         }
 
         .email-badge span {
