@@ -87,28 +87,48 @@
         } else {
             document.getElementById('user-email').textContent = email || 'Authenticated User';
 
-            Paddle.Environment.set('sandbox'); 
-            Paddle.Initialize({ 
-                token: 'test_864122268aea058d132b5b44ddd', 
-                eventCallback: function(event) {
-                    if (event.name === 'checkout.loaded') {
-                        document.getElementById('checkout-loader').style.display = 'none';
-                    }
-                    if (event.name === 'checkout.completed') {
-                        window.location.href = '/success.html';
-                    }
-                }
-            });
+            function showError(message, details = '') {
+                const container = document.getElementById('checkout-container');
+                container.innerHTML = `
+                    <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); border-radius: 16px; padding: 24px; text-align: left; margin-top: 20px;">
+                        <div style="color: #ff4444; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; font-size: 14px;">Checkout Failed</div>
+                        <div style="color: var(--frost); font-size: 12px; margin-bottom: 8px;">${message}</div>
+                        ${details ? `<div style="color: var(--steel); font-size: 10px; font-family: monospace; word-break: break-all;">${details}</div>` : ''}
+                    </div>
+                `;
+            }
 
-            Paddle.Checkout.open({
-                settings: {
-                    displayMode: "inline",
-                    container: "#checkout-container",
-                    theme: "dark",
-                    locale: "en"
-                },
-                transactionId: transactionId
-            });
+            try {
+                Paddle.Environment.set('sandbox'); 
+                Paddle.Initialize({ 
+                    token: 'test_864122268aea058d132b5b44ddd', 
+                    eventCallback: function(event) {
+                        console.log("Paddle Event:", event);
+                        if (event.name === 'checkout.loaded') {
+                            document.getElementById('checkout-loader').style.display = 'none';
+                        }
+                        if (event.name === 'checkout.completed') {
+                            window.location.href = '/success.html';
+                        }
+                        if (event.name === 'checkout.error') {
+                            showError("Paddle encountered an error during checkout.", JSON.stringify(event.data));
+                        }
+                    }
+                });
+
+                Paddle.Checkout.open({
+                    settings: {
+                        displayMode: "inline",
+                        container: "#checkout-container",
+                        theme: "dark",
+                        locale: "en"
+                    },
+                    transactionId: transactionId
+                });
+            } catch (err) {
+                console.error("Initialization Error:", err);
+                showError("Failed to initialize the secure gateway.", err.message || err.toString());
+            }
         }
     </script>
 </body>
