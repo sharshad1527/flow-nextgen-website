@@ -172,6 +172,13 @@
         const email = urlParams.get('email');
         const transactionId = urlParams.get('_ptxn');
 
+        // CRITICAL FIX: Hide _ptxn from the URL immediately so Paddle.js doesn't auto-open a duplicate checkout
+        if (transactionId) {
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete('_ptxn');
+            window.history.replaceState({}, document.title, cleanUrl.toString());
+        }
+
         if (!transactionId) {
             document.querySelector('.split-layout').innerHTML = `
                 <div style="color: #ff4444; font-weight: 800; padding: 40px; text-align: center; width: 100%;">
@@ -196,9 +203,19 @@
             try {
                 Paddle.Environment.set('sandbox'); 
                 
-                // Initialize ONLY with token and callbacks
                 Paddle.Initialize({ 
                     token: 'test_642b6f7a9376de533fddfde430b',
+                    checkout: {
+                        settings: {
+                            displayMode: "inline",
+                            frameTarget: "checkout-frame",
+                            frameInitialHeight: 450,
+                            frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
+                            theme: "dark",
+                            locale: "en",
+                            allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
+                        }
+                    },
                     eventCallback: function(event) {
                         console.log("Paddle Event:", event);
                         if (event.name === 'checkout.loaded') {
@@ -225,20 +242,11 @@
                     }
                 });
 
-                // Open checkout with all settings and transaction
+                // Open checkout WITHOUT displayMode settings to prevent override bugs
                 Paddle.Checkout.open({
                     transactionId: transactionId,
                     customer: {
                         email: email
-                    },
-                    settings: {
-                        displayMode: "inline",
-                        frameTarget: "checkout-frame",
-                        frameInitialHeight: 450,
-                        frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
-                        theme: "dark",
-                        locale: "en",
-                        allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
                     }
                 });
             } catch (err) {
