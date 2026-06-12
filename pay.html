@@ -89,11 +89,15 @@
 
             function showError(message, details = '') {
                 const container = document.getElementById('checkout-container');
+                // Clear the container to remove the broken iframe or spinner
                 container.innerHTML = `
                     <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); border-radius: 16px; padding: 24px; text-align: left; margin-top: 20px;">
-                        <div style="color: #ff4444; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; font-size: 14px;">Checkout Failed</div>
+                        <div style="color: #ff4444; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; font-size: 14px;">Checkout Rejected</div>
                         <div style="color: var(--frost); font-size: 12px; margin-bottom: 8px;">${message}</div>
                         ${details ? `<div style="color: var(--steel); font-size: 10px; font-family: monospace; word-break: break-all;">${details}</div>` : ''}
+                        <div style="margin-top: 16px; font-size: 11px; color: var(--orange); font-weight: bold;">
+                            💡 Developer Tip: If you see Paddle's "Something went wrong", your frontend Client Token doesn't match your backend PADDLE_API_KEY.
+                        </div>
                     </div>
                 `;
             }
