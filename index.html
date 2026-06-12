@@ -3,72 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flow NextGen | Secure Checkout</title>
+    <title>Flow NextGen | Coming Soon</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Paddle.js V2 -->
-    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 </head>
 <body>
-    <div class="checkout-card">
+    <div class="blobs">
+        <div class="blob" style="width: 500px; height: 500px; top: -10%; right: -10%;"></div>
+        <div class="blob" style="width: 400px; height: 400px; bottom: -10%; left: -10%; background: #334155;"></div>
+    </div>
+
+    <div class="checkout-card construction-card">
         <div class="logo-container">
             <div class="logo-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                <!-- Our Hosted Logo (Embedded SVG - Exact match of the 3D Extension Logo) -->
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                    <!-- Left 3D Pillar -->
+                    <path d="M 20 30 L 20 85 L 35 75 L 35 20 Z" fill="#E54D00" />
+                    <!-- Right 3D Pillar -->
+                    <path d="M 65 30 L 65 85 L 80 75 L 80 20 Z" fill="#FF8A00" />
+                    <!-- 3D Bridge connecting them -->
+                    <path d="M 35 45 L 65 30 L 65 45 L 35 60 Z" fill="#FFFFFF" />
+                    <!-- Top Caps for depth -->
+                    <path d="M 20 30 L 27 25 L 35 20 L 28 25 Z" fill="#FFB380" opacity="0.5" />
                 </svg>
             </div>
             <h1 class="brand-name">Flow <span>NextGen</span></h1>
         </div>
 
         <div class="status-section">
-            <div class="loader"></div>
-            <h2>Secure Checkout</h2>
-            <p>Initializing Paddle v3 Engine...<br>Please do not refresh this page.</p>
+            <div class="badge">Development Stage</div>
+            <h2>Under Construction</h2>
+            <p>
+                Flow NextGen is currently in the active building phase. We are crafting the ultimate high-fidelity automation engine for the next generation of creators.
+            </p>
+            
+            <div class="divider"></div>
+            
+            <div class="social-hint">
+                Coming soon to your favorite browser.
+            </div>
         </div>
     </div>
-
-    <script>
-        // 1. INITIALIZE PADDLE
-        try {
-            Paddle.Environment.set('sandbox'); // CRITICAL FIX: Force Sandbox mode
-            Paddle.Initialize({ 
-                token: 'test_864122268aea058d132b5b44ddd', 
-                eventCallback: function(event) {
-
-
-                    console.log("Paddle Event:", event.name, event);
-                    if (event.name === 'checkout.loaded') {
-                        document.querySelector('p').innerText = "Secure checkout loaded. Finalizing payment window...";
-                    }
-                    if (event.name === 'checkout.closed') {
-                        document.querySelector('h2').innerText = "Checkout Closed";
-                        document.querySelector('p').innerText = "You can close this tab and return to the extension.";
-                        document.querySelector('.loader').style.display = 'none';
-                    }
-                }
-            });
-
-            // 2. EXPLICIT TRIGGER
-            // Sometimes auto-detection fails, so we manually check the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const txnId = urlParams.get('_ptxn');
-
-            if (txnId) {
-                console.log("Found Transaction ID:", txnId);
-                Paddle.Checkout.open({
-                    transactionId: txnId,
-                    settings: {
-                        displayMode: 'overlay',
-                        theme: 'dark'
-                    }
-                });
-            } else {
-                console.warn("No transaction ID found in URL.");
-                document.querySelector('p').innerText = "No transaction found. Please start checkout from the extension.";
-            }
-        } catch (err) {
-            console.error("Paddle Initialization Error:", err);
-            document.querySelector('p').innerText = "Error: " + err.message;
-        }
-    </script>
 </body>
 </html>
