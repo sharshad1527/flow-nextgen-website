@@ -66,7 +66,7 @@
             Securing Pro for: <span id="user-email">Loading...</span>
         </div>
 
-        <div class="paddle-checkout-container" style="min-height: 450px; width: 100%; position: relative;">
+        <div class="checkout-frame" style="width: 100%; min-height: 500px; position: relative;">
             <div class="loader-wrap" id="checkout-loader">
                 <div class="spinner"></div>
                 <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--steel);">Initializing Secure Gateway</div>
@@ -96,7 +96,7 @@
             document.getElementById('user-email').textContent = email || 'Authenticated User';
 
             function showError(message, details = '') {
-                const container = document.querySelector('.paddle-checkout-container');
+                const container = document.querySelector('.checkout-frame');
                 container.innerHTML = `
                     <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); border-radius: 16px; padding: 24px; text-align: left; margin-top: 20px;">
                         <div style="color: #ff4444; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; font-size: 14px;">Checkout Rejected</div>
@@ -130,11 +130,12 @@
                 Paddle.Checkout.open({
                     settings: {
                         displayMode: "inline",
-                        frameTarget: "paddle-checkout-container",
-                        frameInitialHeight: 450,
+                        frameTarget: "checkout-frame",
+                        frameInitialHeight: 500,
                         frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
                         theme: "dark",
-                        locale: "en"
+                        locale: "en",
+                        allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
                     },
                     customer: {
                         email: email
