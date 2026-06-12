@@ -119,8 +119,8 @@
 
     <div class="split-layout" id="main-card">
         <div class="split-left">
-            <div class="logo-icon" style="margin: 0 0 1.5rem 0; width: 64px; height: 64px;">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+            <div class="logo-icon" style="margin: 0 0 1.5rem 0; width: 64px; height: 64px; padding: 10px;">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <path d="M 20 30 L 20 85 L 35 75 L 35 20 Z" fill="#E54D00" />
                     <path d="M 65 30 L 65 85 L 80 75 L 80 20 Z" fill="#FF8A00" />
                     <path d="M 35 45 L 65 30 L 65 45 L 35 60 Z" fill="#FFFFFF" />
@@ -134,21 +134,21 @@
             </div>
 
             <p style="text-align: left; font-size: 1rem; color: var(--frost);">
-                Unlock the full power of the Flow NextGen automation engine.
+                Unlock the full power of Flow NextGen.
             </p>
 
             <ul class="features-list">
                 <li>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    Unlimited daily generations
+                    Feature 1
                 </li>
                 <li>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    Priority queue execution
+                    Feature 2
                 </li>
                 <li>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    Access to all future updates
+                    Feature 3
                 </li>
             </ul>
 
@@ -196,20 +196,9 @@
             try {
                 Paddle.Environment.set('sandbox'); 
                 
-                // CRITICAL FIX: Put displayMode and frameTarget inside Paddle.Initialize settings
+                // Initialize ONLY with token and callbacks
                 Paddle.Initialize({ 
                     token: 'test_642b6f7a9376de533fddfde430b',
-                    checkout: {
-                        settings: {
-                            displayMode: "inline",
-                            frameTarget: "checkout-frame",
-                            frameInitialHeight: 450,
-                            frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
-                            theme: "dark",
-                            locale: "en",
-                            allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
-                        }
-                    },
                     eventCallback: function(event) {
                         console.log("Paddle Event:", event);
                         if (event.name === 'checkout.loaded') {
@@ -236,11 +225,20 @@
                     }
                 });
 
-                // Open checkout WITHOUT displayMode settings to prevent overlay override
+                // Open checkout with all settings and transaction
                 Paddle.Checkout.open({
                     transactionId: transactionId,
                     customer: {
                         email: email
+                    },
+                    settings: {
+                        displayMode: "inline",
+                        frameTarget: "checkout-frame",
+                        frameInitialHeight: 450,
+                        frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
+                        theme: "dark",
+                        locale: "en",
+                        allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
                     }
                 });
             } catch (err) {
