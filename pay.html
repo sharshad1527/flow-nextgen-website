@@ -26,12 +26,20 @@
         }
 
         #checkout-container {
-            min-height: 400px;
             width: 100%;
+            min-width: 300px;
+            min-height: 550px; /* Critical: Paddle needs space to render */
+            margin: 0 auto;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
         .loader-wrap {
-            padding: 40px 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
         }
     </style>
 </head>
@@ -41,7 +49,7 @@
         <div class="glow-orb" style="width: 500px; height: 500px; top: -5%; left: -5%;"></div>
     </div>
 
-    <div class="glass-card">
+    <div class="glass-card" id="main-card">
         <div class="logo-container">
             <div class="logo-icon">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
@@ -51,7 +59,7 @@
                     <path d="M 20 30 L 27 25 L 35 20 L 28 25 Z" fill="#FFB380" opacity="0.5" />
                 </svg>
             </div>
-            <h1>Complete Upgrade</h1>
+            <h1 id="page-title">Complete Upgrade</h1>
         </div>
 
         <div class="email-badge" id="user-info">
@@ -89,7 +97,6 @@
 
             function showError(message, details = '') {
                 const container = document.getElementById('checkout-container');
-                // Clear the container to remove the broken iframe or spinner
                 container.innerHTML = `
                     <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); border-radius: 16px; padding: 24px; text-align: left; margin-top: 20px;">
                         <div style="color: #ff4444; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; font-size: 14px;">Checkout Rejected</div>
@@ -117,12 +124,25 @@
                         if (event.name === 'checkout.error') {
                             showError("Paddle encountered an error during checkout.", JSON.stringify(event.data));
                         }
+                        if (event.name === 'checkout.closed') {
+                            document.getElementById('page-title').innerText = "Checkout Canceled";
+                            document.getElementById('user-info').style.display = 'none';
+                            const container = document.getElementById('checkout-container');
+                            container.style.minHeight = 'auto';
+                            container.innerHTML = `
+                                <div style="padding: 20px; color: var(--steel); font-size: 13px; line-height: 1.6;">
+                                    You have canceled the checkout process.<br><br>
+                                    <button onclick="window.close()" class="btn" style="margin-top: 24px;">Close Tab & Return</button>
+                                </div>
+                            `;
+                        }
                     }
                 });
 
                 Paddle.Checkout.open({
                     settings: {
-                        displayMode: "overlay",
+                        displayMode: "inline",
+                        container: "#checkout-container",
                         theme: "dark",
                         locale: "en"
                     },
