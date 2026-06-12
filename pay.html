@@ -128,19 +128,19 @@
                 });
 
                 Paddle.Checkout.open({
+                    transactionId: transactionId,
+                    customer: {
+                        email: email
+                    },
                     settings: {
                         displayMode: "inline",
                         frameTarget: "checkout-frame",
-                        frameInitialHeight: 500,
+                        frameInitialHeight: "450",
                         frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
                         theme: "dark",
                         locale: "en",
                         allowedPaymentMethods: ["card", "paypal", "apple_pay", "google_pay"]
-                    },
-                    customer: {
-                        email: email
-                    },
-                    transactionId: transactionId
+                    }
                 });
             } catch (err) {
                 console.error("Initialization Error:", err);
