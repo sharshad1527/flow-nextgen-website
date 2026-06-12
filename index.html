@@ -28,11 +28,12 @@
 
     <script>
         // 1. INITIALIZE PADDLE
-        // You MUST replace 'YOUR_CLIENT_TOKEN' with your real token from Paddle
         try {
+            Paddle.Environment.set('sandbox'); // CRITICAL FIX: Force Sandbox mode
             Paddle.Initialize({ 
                 token: 'test_864122268aea058d132b5b44ddd', 
                 eventCallback: function(event) {
+
 
                     console.log("Paddle Event:", event.name, event);
                     if (event.name === 'checkout.loaded') {
