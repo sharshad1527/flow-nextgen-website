@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Payment | Flow NextGen</title>
+    <title>Subscribe | Flow NextGen</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <style>
         .split-layout {
             display: flex;
             width: 100%;
-            max-width: 1100px; /* Increased width for better one-page flow */
+            max-width: 1100px;
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(32px) saturate(180%);
             -webkit-backdrop-filter: blur(32px) saturate(180%);
@@ -26,17 +26,17 @@
         @media (min-width: 850px) {
             .split-layout {
                 flex-direction: row;
-                min-height: 520px; /* Reduced vertical height */
+                min-height: 520px;
             }
         }
 
         .split-left {
-            flex: 0.9;
-            padding: 2.5rem 3rem; /* Reduced vertical padding */
+            flex: 0.8; /* 40% panel */
+            padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center items for professional branding */
-            text-align: center; /* Center text */
+            align-items: center;
+            text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -48,8 +48,8 @@
         }
 
         .split-right {
-            flex: 1.2;
-            padding: 0.5rem; /* Minimized padding to reduce height */
+            flex: 1.2; /* 60% panel */
+            padding: 0.5rem;
             background: rgba(2, 6, 23, 0.2);
             display: flex;
             align-items: center;
@@ -57,11 +57,30 @@
             position: relative;
         }
 
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 1rem;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .brand-flow { color: #ffffff; }
+        .brand-nextgen { color: var(--orange); }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: var(--steel);
+            line-height: 1.5;
+            margin-top: 0.6rem;
+            max-width: 280px;
+        }
+
         .receipt-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
             margin-top: 1.5rem;
             width: 100%;
         }
@@ -69,17 +88,17 @@
         .receipt-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 13px;
+            margin-bottom: 0.4rem;
+            font-size: 12px;
             color: var(--steel);
         }
 
         .receipt-total {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 0.8rem;
-            margin-top: 0.8rem;
+            padding-top: 0.6rem;
+            margin-top: 0.6rem;
             font-weight: 800;
-            font-size: 16px;
+            font-size: 15px;
             color: var(--orange);
         }
 
@@ -88,7 +107,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--steel);
@@ -99,7 +118,7 @@
 
         .checkout-frame {
             width: 100%;
-            min-height: 440px; /* Reduced frame height */
+            min-height: 440px;
         }
 
         .features-grid {
@@ -107,6 +126,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-top: 1.5rem;
+            width: 100%;
         }
 
         .feature-item {
@@ -115,6 +135,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            text-align: left;
         }
 
         .feature-item svg {
@@ -131,7 +152,7 @@
 
     <div class="split-layout">
         <div class="split-left">
-            <div class="logo-icon" style="width: 48px; height: 48px; padding: 8px; border-radius: 14px; margin-bottom: 0.5rem;">
+            <div class="logo-icon" style="width: 64px; height: 64px; padding: 10px; border-radius: 18px;">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <path d="M 20 30 L 20 85 L 35 75 L 35 20 Z" fill="#E54D00" />
                     <path d="M 65 30 L 65 85 L 80 75 L 80 20 Z" fill="#FF8A00" />
@@ -139,7 +160,8 @@
                 </svg>
             </div>
             
-            <h1 style="font-size: 1.5rem; margin: 0.5rem 0;">Upgrade to Pro</h1>
+            <h1 class="brand-name">Subscribe to <span class="brand-flow">FLOW</span> <span class="brand-nextgen">NextGen</span></h1>
+            <p class="tagline">The ultimate power-user toolkit for Google Labs Flow. Automated batch queuing, intelligent prompt orchestration, and premium 4K downloads.</p>
 
             <div class="receipt-card">
                 <div class="receipt-row">
