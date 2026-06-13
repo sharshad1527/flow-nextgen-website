@@ -49,7 +49,7 @@
 
         .split-right {
             flex: 1.2; /* 60% panel */
-            padding: 0.5rem;
+            padding: 0.5rem 2.5rem; /* Added horizontal padding */
             background: rgba(2, 6, 23, 0.2);
             display: flex;
             align-items: center;
@@ -60,13 +60,14 @@
         .brand-name {
             font-size: 1.5rem;
             font-weight: 800;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             letter-spacing: -0.5px;
             line-height: 1.2;
+            text-transform: none;
         }
 
-        .brand-flow { color: #ffffff; }
-        .brand-nextgen { color: var(--orange); }
+        .brand-white { color: #ffffff; }
+        .brand-orange { color: var(--orange); }
 
         .tagline {
             font-size: 0.85rem;
@@ -125,8 +126,9 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 1.5rem;
+            margin: 1.5rem 0;
             width: 100%;
+            justify-items: center; /* Center grid items */
         }
 
         .feature-item {
@@ -136,6 +138,7 @@
             align-items: center;
             gap: 6px;
             text-align: left;
+            width: 120px; /* Fixed width for alignment */
         }
 
         .feature-item svg {
@@ -160,8 +163,8 @@
                 </svg>
             </div>
             
-            <h1 class="brand-name">Subscribe to <span class="brand-flow">FLOW</span> <span class="brand-nextgen">NextGen</span></h1>
-            <p class="tagline">The ultimate power-user toolkit for Google Labs Flow. Automated batch queuing, intelligent prompt orchestration, and premium 4K downloads.</p>
+            <h1 class="brand-name">Subscribe to <span class="brand-white">FLOW</span> <span class="brand-orange">NextGen</span></h1>
+            <p class="tagline">Professional AI toolkit for creators.</p>
 
             <div class="receipt-card">
                 <div class="receipt-row">
@@ -259,20 +262,28 @@
                         if (event.name === 'checkout.loaded' || event.name === 'checkout.updated') {
                             document.getElementById('checkout-loader').style.display = 'none';
                             
-                            if (event.data && event.data.totals) {
-                                const totals = event.data.totals;
-                                const currency = totals.currency_code === 'USD' ? '$' : (totals.currency_code || '$');
+                            // Paddle v2 provides totals in the 'data' object of the event
+                            const data = event.data;
+                            if (data && data.totals) {
+                                const totals = data.totals;
+                                const currency = data.currency_code === 'USD' ? '$' : (data.currency_code || '$');
                                 
-                                document.getElementById('dynamic-subtotal').innerText = currency + (totals.subtotal / 100).toFixed(2);
-                                document.getElementById('dynamic-tax').innerText = currency + (totals.tax / 100).toFixed(2);
-                                document.getElementById('dynamic-total').innerText = currency + (totals.total / 100).toFixed(2);
+                                // Safely handle decimal conversion for integers
+                                const subtotal = (parseFloat(totals.subtotal) / 100).toFixed(2);
+                                const tax = (parseFloat(totals.tax) / 100).toFixed(2);
+                                const total = (parseFloat(totals.total) / 100).toFixed(2);
+
+                                document.getElementById('dynamic-subtotal').innerText = currency + subtotal;
+                                document.getElementById('dynamic-tax').innerText = currency + tax;
+                                document.getElementById('dynamic-total').innerText = currency + total;
+                                
+                                console.log(`UI Updated: Subtotal=${subtotal}, Tax=${tax}, Total=${total}`);
                             }
                         }
                         if (event.name === 'checkout.completed') {
                             window.location.href = 'success.html';
                         }
                         if (event.name === 'checkout.closed') {
-                            // Explicit cancel handling
                             document.body.innerHTML = `
                                 <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center;">
                                     <div>
@@ -286,7 +297,7 @@
                     }
                 });
 
-                Paddle.Checkout.open({
+                 Paddle.Checkout.open({
                     transactionId: transactionId,
                     customer: {
                         email: email
