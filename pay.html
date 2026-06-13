@@ -26,15 +26,17 @@
         @media (min-width: 850px) {
             .split-layout {
                 flex-direction: row;
-                min-height: 580px;
+                min-height: 520px; /* Reduced vertical height */
             }
         }
 
         .split-left {
             flex: 0.9;
-            padding: 3rem;
+            padding: 2.5rem 3rem; /* Reduced vertical padding */
             display: flex;
             flex-direction: column;
+            align-items: center; /* Center items for professional branding */
+            text-align: center; /* Center text */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -47,7 +49,7 @@
 
         .split-right {
             flex: 1.2;
-            padding: 1rem;
+            padding: 0.5rem; /* Minimized padding to reduce height */
             background: rgba(2, 6, 23, 0.2);
             display: flex;
             align-items: center;
@@ -60,7 +62,8 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+            width: 100%;
         }
 
         .receipt-row {
@@ -68,6 +71,7 @@
             justify-content: space-between;
             margin-bottom: 0.5rem;
             font-size: 13px;
+            color: var(--steel);
         }
 
         .receipt-total {
@@ -82,6 +86,7 @@
         .trust-badge {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             font-size: 10px;
             text-transform: uppercase;
@@ -89,11 +94,12 @@
             color: var(--steel);
             font-weight: 700;
             margin-top: 1.5rem;
+            opacity: 0.6;
         }
 
         .checkout-frame {
             width: 100%;
-            min-height: 480px;
+            min-height: 440px; /* Reduced frame height */
         }
 
         .features-grid {
@@ -125,7 +131,7 @@
 
     <div class="split-layout">
         <div class="split-left">
-            <div class="logo-icon" style="width: 48px; height: 48px; padding: 8px; border-radius: 14px;">
+            <div class="logo-icon" style="width: 48px; height: 48px; padding: 8px; border-radius: 14px; margin-bottom: 0.5rem;">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <path d="M 20 30 L 20 85 L 35 75 L 35 20 Z" fill="#E54D00" />
                     <path d="M 65 30 L 65 85 L 80 75 L 80 20 Z" fill="#FF8A00" />
@@ -133,8 +139,7 @@
                 </svg>
             </div>
             
-            <h1 style="font-size: 1.5rem; margin: 1rem 0 0.5rem 0;">Upgrade to Pro</h1>
-            <p style="font-size: 0.9rem;">Join 2,000+ creators building the next generation of AI content.</p>
+            <h1 style="font-size: 1.5rem; margin: 0.5rem 0;">Upgrade to Pro</h1>
 
             <div class="receipt-card">
                 <div class="receipt-row">
@@ -142,11 +147,15 @@
                     <span style="color: var(--frost);">Flow NextGen Pro</span>
                 </div>
                 <div class="receipt-row">
-                    <span>Billing</span>
-                    <span style="color: var(--frost);">Monthly Subscription</span>
+                    <span>Subtotal</span>
+                    <span id="dynamic-subtotal">Calculating...</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Tax</span>
+                    <span id="dynamic-tax">--</span>
                 </div>
                 <div class="receipt-total">
-                    <span>Due Today</span>
+                    <span>Total Due Today</span>
                     <span id="dynamic-total">Calculating...</span>
                 </div>
             </div>
@@ -172,7 +181,7 @@
 
             <div class="trust-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                Secure Bank-Level Encryption
+                Secure Checkout &bull; Powered by Paddle
             </div>
         </div>
         
@@ -227,15 +236,21 @@
                         console.log("Paddle Event:", event);
                         if (event.name === 'checkout.loaded' || event.name === 'checkout.updated') {
                             document.getElementById('checkout-loader').style.display = 'none';
-                            if (event.data.totals) {
-                                const currency = event.data.totals.currency_code === 'USD' ? '$' : event.data.totals.currency_code;
-                                document.getElementById('dynamic-total').innerText = currency + (event.data.totals.total / 100).toFixed(2);
+                            
+                            if (event.data && event.data.totals) {
+                                const totals = event.data.totals;
+                                const currency = totals.currency_code === 'USD' ? '$' : (totals.currency_code || '$');
+                                
+                                document.getElementById('dynamic-subtotal').innerText = currency + (totals.subtotal / 100).toFixed(2);
+                                document.getElementById('dynamic-tax').innerText = currency + (totals.tax / 100).toFixed(2);
+                                document.getElementById('dynamic-total').innerText = currency + (totals.total / 100).toFixed(2);
                             }
                         }
                         if (event.name === 'checkout.completed') {
                             window.location.href = 'success.html';
                         }
                         if (event.name === 'checkout.closed') {
+                            // Explicit cancel handling
                             document.body.innerHTML = `
                                 <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center;">
                                     <div>
