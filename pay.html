@@ -213,11 +213,20 @@
                 
                 Paddle.Initialize({ 
                     token: 'test_642b6f7a9376de533fddfde430b',
+                    checkout: {
+                        settings: {
+                            displayMode: "inline",
+                            frameTarget: "checkout-frame",
+                            frameInitialHeight: 450,
+                            frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
+                            theme: "dark",
+                            allowLogout: false
+                        }
+                    },
                     eventCallback: function(event) {
                         console.log("Paddle Event:", event);
                         if (event.name === 'checkout.loaded' || event.name === 'checkout.updated') {
                             document.getElementById('checkout-loader').style.display = 'none';
-                            // Update dynamic total from Paddle data
                             if (event.data.totals) {
                                 const currency = event.data.totals.currency_code === 'USD' ? '$' : event.data.totals.currency_code;
                                 document.getElementById('dynamic-total').innerText = currency + (event.data.totals.total / 100).toFixed(2);
@@ -227,7 +236,6 @@
                             window.location.href = 'success.html';
                         }
                         if (event.name === 'checkout.closed') {
-                            // Explicit cancel handling
                             document.body.innerHTML = `
                                 <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center;">
                                     <div>
@@ -243,13 +251,6 @@
 
                 Paddle.Checkout.open({
                     transactionId: transactionId,
-                    settings: {
-                        displayMode: "inline",
-                        frameTarget: "checkout-frame",
-                        frameInitialHeight: 450,
-                        theme: "dark",
-                        allowLogout: false
-                    },
                     customer: {
                         email: email
                     }
