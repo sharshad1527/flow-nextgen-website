@@ -19,6 +19,18 @@
             color: var(--emerald);
             box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
         }
+        .pro-badge {
+            background: #ff6b00;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -27,18 +39,19 @@
         <div class="glow-orb" style="width: 500px; height: 500px; top: 10%; right: 10%; background: var(--emerald); opacity: 0.1;"></div>
     </div>
 
-    <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.2);">
+    <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.2); text-align: center;">
+        <div class="pro-badge">Pro Membership</div>
         <div class="icon-container">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
         </div>
         <h1>Upgrade Complete</h1>
-        <p>Your Pro membership is now active. You can close this tab and return to the extension to start using your unlimited quota.</p>
+        <p style="color: var(--steel); font-size: 14px; line-height: 1.6; max-width: 320px; margin: 0 auto 24px;">Your Pro membership is now active. You can close this tab and return to the extension to start using your <strong>Pro plan</strong>.</p>
         
         <div class="divider"></div>
 
-        <button onclick="window.close()" class="btn">Close Secure Tab</button>
+        <button onclick="window.close()" class="btn">Return to FLOWNextGen</button>
     </div>
 </body>
 </html>
