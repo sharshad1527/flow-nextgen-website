@@ -10,7 +10,7 @@
         .split-layout {
             display: flex;
             width: 100%;
-            max-width: 940px; /* Reduced from 1100px */
+            max-width: 940px;
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(32px) saturate(180%);
             -webkit-backdrop-filter: blur(32px) saturate(180%);
@@ -27,30 +27,32 @@
         @media (min-width: 850px) {
             .split-layout {
                 flex-direction: row;
-                min-height: 480px; /* Reduced from 520px */
+                min-height: 480px;
             }
         }
 
         .split-left {
-            flex: 0.7; /* Narrower left panel */
-            padding: 1.5rem 1.5rem; /* Reduced padding */
+            flex: 0.7;
+            padding: 1.5rem 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: 100%; /* Ensure it fills parent height */
         }
 
         @media (min-width: 850px) {
             .split-left {
                 border-bottom: none;
                 border-right: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 2rem 1.5rem;
             }
         }
 
         .split-right {
-            flex: 1.3; /* Wider right panel for checkout */
-            padding: 0.5rem 1.5rem; /* Reduced horizontal padding */
+            flex: 1.3;
+            padding: 0.5rem 1.5rem;
             background: rgba(2, 6, 23, 0.2);
             display: flex;
             align-items: center;
@@ -61,7 +63,7 @@
         .brand-name {
             font-size: 1.25rem;
             font-weight: 800;
-            margin-top: 0.5rem; /* Moved up slightly */
+            margin-top: 0.5rem;
             letter-spacing: -0.5px;
             line-height: 1.2;
             text-transform: none;
@@ -72,7 +74,7 @@
 
         .brand-prefix {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6) !important; /* Soft white */
+            color: rgba(255, 255, 255, 0.6) !important;
             text-transform: none;
             letter-spacing: 0.5px;
             font-weight: 600;
@@ -89,12 +91,21 @@
             max-width: 240px;
         }
 
+        /* CENTER CONTENT WRAPPER */
+        .content-middle {
+            margin: auto 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
         .receipt-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 1rem;
             padding: 1rem;
-            margin-top: 2rem; /* Placed lower */
             width: 100%;
         }
 
@@ -115,6 +126,40 @@
             color: #ff6b00;
         }
 
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 1rem;
+            width: 100%;
+            justify-items: center;
+        }
+
+        .feature-item {
+            font-size: 10px;
+            color: var(--steel);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-align: left;
+            width: 110px;
+        }
+
+        .feature-item svg {
+            color: #ff6b00;
+            flex-shrink: 0;
+        }
+
+        /* PIN TO BOTTOM SECTION */
+        .trust-section {
+            margin-top: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 1.5rem;
+        }
+
         .trust-badge {
             display: flex;
             align-items: center;
@@ -125,7 +170,6 @@
             letter-spacing: 1px;
             color: var(--steel);
             font-weight: 700;
-            margin-top: 1.5rem; /* Manual spacing instead of auto */
             opacity: 0.6;
         }
 
@@ -153,31 +197,6 @@
             width: 100%;
             min-height: 340px;
         }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 1.2rem 0;
-            margin-bottom: 0.5rem; /* Pull up towards the badge */
-            width: 100%;
-            justify-items: center;
-        }
-
-        .feature-item {
-            font-size: 10px; /* Reduced from 11px */
-            color: var(--steel);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            text-align: left;
-            width: 110px; /* More compact */
-        }
-
-        .feature-item svg {
-            color: #ff6b00;
-            flex-shrink: 0;
-        }
     </style>
 </head>
 <body>
@@ -188,7 +207,6 @@
 
     <div class="split-layout">
         <div class="split-left">
-            <!-- LOGO INCREASED TO 72PX -->
             <div class="logo-icon" style="width: 72px; height: 72px; padding: 12px; border-radius: 20px;">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <path d="M 20 30 L 20 85 L 35 75 L 35 20 Z" fill="#E54D00" />
@@ -203,41 +221,43 @@
             </h1>
             <p class="tagline">Next-generation automation for Creators.</p>
 
-            <div class="receipt-card">
-                <div class="receipt-row">
-                    <span>Plan</span>
-                    <span style="color: var(--frost);">Flow NextGen Pro</span>
+            <div class="content-middle">
+                <div class="receipt-card">
+                    <div class="receipt-row">
+                        <span>Plan</span>
+                        <span style="color: var(--frost);">Flow NextGen Pro</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Subtotal</span>
+                        <span id="dynamic-subtotal">Calculating...</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Tax</span>
+                        <span id="dynamic-tax">--</span>
+                    </div>
+                    <div class="receipt-total">
+                        <span>Total Due Today</span>
+                        <span id="dynamic-total">Calculating...</span>
+                    </div>
                 </div>
-                <div class="receipt-row">
-                    <span>Subtotal</span>
-                    <span id="dynamic-subtotal">Calculating...</span>
-                </div>
-                <div class="receipt-row">
-                    <span>Tax</span>
-                    <span id="dynamic-tax">--</span>
-                </div>
-                <div class="receipt-total">
-                    <span>Total Due Today</span>
-                    <span id="dynamic-total">Calculating...</span>
-                </div>
-            </div>
 
-            <div class="features-grid">
-                <div class="feature-item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Unlimited Queue
-                </div>
-                <div class="feature-item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Batch 4K DL
-                </div>
-                <div class="feature-item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Character Pro
-                </div>
-                <div class="feature-item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Priority Flow
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Unlimited Queue
+                    </div>
+                    <div class="feature-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Batch 4K DL
+                    </div>
+                    <div class="feature-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Character Pro
+                    </div>
+                    <div class="feature-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Priority Flow
+                    </div>
                 </div>
             </div>
 
@@ -257,7 +277,6 @@
         
         <div class="split-right">
             <div class="checkout-frame" id="checkout-frame">
-                <!-- Paddle injects here -->
                 <div class="loader-wrap" id="checkout-loader">
                     <div class="spinner"></div>
                     <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--steel);">Initializing Secure Gateway</div>
@@ -303,7 +322,6 @@
                         }
                     },
                     eventCallback: function(event) {
-                        console.log("Paddle Event:", event);
                         if (event.name === 'checkout.loaded' || event.name === 'checkout.updated') {
                             document.getElementById('checkout-loader').style.display = 'none';
                             
@@ -312,8 +330,6 @@
                                 const totals = data.totals;
                                 const currency = data.currency_code === 'USD' ? '$' : (data.currency_code || '$');
                                 
-                                // FIX: Paddle v2 returns totals as decimal strings (e.g., "10.00")
-                                // Do not divide by 100 if it's already a decimal.
                                 const subtotal = parseFloat(totals.subtotal).toFixed(2);
                                 const tax = parseFloat(totals.tax).toFixed(2);
                                 const total = parseFloat(totals.total).toFixed(2);
@@ -321,8 +337,6 @@
                                 document.getElementById('dynamic-subtotal').innerText = currency + subtotal;
                                 document.getElementById('dynamic-tax').innerText = currency + tax;
                                 document.getElementById('dynamic-total').innerText = currency + total;
-                                
-                                console.log(`UI Updated: Subtotal=${subtotal}, Tax=${tax}, Total=${total}`);
                             }
                         }
                         if (event.name === 'checkout.completed') {
