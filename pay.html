@@ -59,19 +59,30 @@
         }
 
         .brand-name {
-            font-size: 1.25rem; /* Reduced from 1.5rem */
+            font-size: 1.25rem;
             font-weight: 800;
             margin-top: 1rem;
             letter-spacing: -0.5px;
             line-height: 1.2;
             text-transform: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-prefix {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4); /* Translucent silver */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .brand-white { color: #ffffff; }
-        .brand-orange { color: #ff6b00; } /* Explicit orange */
+        .brand-orange { color: #ff6b00; }
 
         .tagline {
-            font-size: 0.8rem; /* Reduced from 0.85rem */
+            font-size: 0.8rem;
             color: var(--steel);
             line-height: 1.5;
             margin-top: 0.5rem;
@@ -91,7 +102,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.3rem;
-            font-size: 11px; /* Reduced from 12px */
+            font-size: 11px;
             color: var(--steel);
         }
 
@@ -100,7 +111,7 @@
             padding-top: 0.5rem;
             margin-top: 0.5rem;
             font-weight: 800;
-            font-size: 14px; /* Reduced from 15px */
+            font-size: 14px;
             color: #ff6b00;
         }
 
@@ -109,18 +120,19 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            font-size: 8px; /* Reduced from 9px */
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--steel);
             font-weight: 700;
-            margin-top: 1.2rem;
+            margin-top: auto; /* Push to bottom */
+            padding-top: 1.5rem;
             opacity: 0.6;
         }
 
         .checkout-frame {
             width: 100%;
-            min-height: 400px; /* Reduced from 440px */
+            min-height: 340px; /* Further reduced from 400px */
         }
 
         .features-grid {
@@ -165,7 +177,10 @@
                 </svg>
             </div>
             
-            <h1 class="brand-name"><span class="brand-white">FLOW</span> <span class="brand-orange">NextGen</span></h1>
+            <h1 class="brand-name">
+                <span class="brand-prefix">Subscribe to</span>
+                <span><span class="brand-white">FLOW</span> <span class="brand-orange">NextGen</span></span>
+            </h1>
             <p class="tagline">Professional AI toolkit for creators.</p>
 
             <div class="receipt-card">
@@ -253,7 +268,7 @@
                         settings: {
                             displayMode: "inline",
                             frameTarget: "checkout-frame",
-                            frameInitialHeight: 400,
+                            frameInitialHeight: 340,
                             frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;",
                             theme: "dark",
                             allowLogout: false
