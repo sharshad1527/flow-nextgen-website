@@ -33,27 +33,35 @@
 
         .split-left {
             flex: 0.7; /* Narrower left panel */
-            padding: 1.5rem 1.5rem;
+            padding: 1.5rem 1.5rem; /* Reduced padding */
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            min-height: inherit; /* Ensure it takes full height for pinning */
         }
 
         @media (min-width: 850px) {
             .split-left {
                 border-bottom: none;
                 border-right: 1px solid rgba(255, 255, 255, 0.08);
-                padding: 2.5rem 1.5rem; /* More vertical breathing room */
             }
+        }
+
+        .split-right {
+            flex: 1.3; /* Wider right panel for checkout */
+            padding: 0.5rem 1.5rem; /* Reduced horizontal padding */
+            background: rgba(2, 6, 23, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .brand-name {
             font-size: 1.25rem;
             font-weight: 800;
-            margin-top: 0.5rem;
+            margin-top: 0.5rem; /* Moved up slightly */
             letter-spacing: -0.5px;
             line-height: 1.2;
             text-transform: none;
@@ -81,39 +89,30 @@
             max-width: 240px;
         }
 
-        /* Centered Content Wrapper */
-        .content-middle {
-            margin: auto 0; /* Centers this block vertically */
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         .receipt-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 1rem;
             padding: 1rem;
+            margin-top: 2rem; /* Placed lower */
             width: 100%;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 1.5rem; /* Space between pricing and features */
-            width: 100%;
-            justify-items: center;
-        }
-
-        .trust-section {
-            margin-top: auto; /* PINS TO BOTTOM */
-            width: 100%;
+        .receipt-row {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 2rem;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 11px;
+            color: var(--steel);
+        }
+
+        .receipt-total {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+            font-weight: 800;
+            font-size: 14px;
+            color: #ff6b00;
         }
 
         .trust-badge {
@@ -126,6 +125,7 @@
             letter-spacing: 1px;
             color: var(--steel);
             font-weight: 700;
+            margin-top: 1.5rem; /* Manual spacing instead of auto */
             opacity: 0.6;
         }
 
@@ -136,6 +136,32 @@
             font-size: 8px;
             margin-top: 8px;
             opacity: 0.5;
+            width: 100%;
+        }
+
+        .legal-footer a {
+            color: var(--steel);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .legal-footer a:hover {
+            color: #ffffff;
+        }
+
+        .checkout-frame {
+            width: 100%;
+            min-height: 340px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 1.2rem 0;
+            margin-bottom: 0.5rem; /* Pull up towards the badge */
+            width: 100%;
+            justify-items: center;
         }
 
         .feature-item {
@@ -175,59 +201,55 @@
                 <span class="brand-prefix" style="color: rgba(255, 255, 255, 0.6) !important;">Subscribe to</span>
                 <span><span class="brand-white" style="color: #ffffff !important;">FLOW</span><span class="brand-orange" style="color: #ff6b00 !important;">NextGen</span></span>
             </h1>
-            <p class="tagline">Next-generation automation for Creators.</p>
+            <p class="tagline">Professional AI toolkit for creators.</p>
 
-            <div class="content-middle">
-                <div class="receipt-card">
-                    <div class="receipt-row">
-                        <span>Plan</span>
-                        <span style="color: var(--frost);">Flow NextGen Pro</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span>Subtotal</span>
-                        <span id="dynamic-subtotal">Calculating...</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span>Tax</span>
-                        <span id="dynamic-tax">--</span>
-                    </div>
-                    <div class="receipt-total">
-                        <span>Total Due Today</span>
-                        <span id="dynamic-total">Calculating...</span>
-                    </div>
+            <div class="receipt-card">
+                <div class="receipt-row">
+                    <span>Plan</span>
+                    <span style="color: var(--frost);">Flow NextGen Pro</span>
                 </div>
-
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Unlimited Queue
-                    </div>
-                    <div class="feature-item">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Batch 4K DL
-                    </div>
-                    <div class="feature-item">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Character Pro
-                    </div>
-                    <div class="feature-item">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Priority Flow
-                    </div>
+                <div class="receipt-row">
+                    <span>Subtotal</span>
+                    <span id="dynamic-subtotal">Calculating...</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Tax</span>
+                    <span id="dynamic-tax">--</span>
+                </div>
+                <div class="receipt-total">
+                    <span>Total Due Today</span>
+                    <span id="dynamic-total">Calculating...</span>
                 </div>
             </div>
 
-            <div class="trust-section">
-                <div class="trust-badge">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    Secure Checkout &bull; Powered by Paddle
+            <div class="features-grid">
+                <div class="feature-item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Unlimited Queue
                 </div>
-                
-                <div class="legal-footer">
-                    <a href="https://flownextgen.netlify.app/terms" target="_blank">Terms</a>
-                    <a href="https://flownextgen.netlify.app/privacy" target="_blank">Privacy</a>
-                    <a href="mailto:support.flownextgen@gmail.com">Contact</a>
+                <div class="feature-item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Batch 4K DL
                 </div>
+                <div class="feature-item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Character Pro
+                </div>
+                <div class="feature-item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Priority Flow
+                </div>
+            </div>
+
+            <div class="trust-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Secure Checkout &bull; Powered by Paddle
+            </div>
+
+            <div class="legal-footer">
+                <a href="https://flownextgen.netlify.app/terms" target="_blank">Terms</a>
+                <a href="https://flownextgen.netlify.app/privacy" target="_blank">Privacy</a>
+                <a href="mailto:support.flownextgen@gmail.com">Contact</a>
             </div>
         </div>
         
