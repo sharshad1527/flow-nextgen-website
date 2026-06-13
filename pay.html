@@ -226,7 +226,7 @@
                             if(loader) loader.style.display = 'none';
                         }
                         if (event.name === 'checkout.completed') {
-                            window.location.href = '/success.html';
+                            window.location.href = 'success.html';
                         }
                         if (event.name === 'checkout.error') {
                             showError("Paddle encountered an error during checkout.", JSON.stringify(event.data));
